@@ -61,15 +61,32 @@ namespace InventarioConListasOrdenado
         }
         public void agregar(Productos producto)
         {
-            Productos varTemporal = inicio;
-            while(varTemporal.siguiente != null)
-            {
-                if(varTemporal.codigo < producto.codigo)
+            Productos guardar = inicio;
+
+   
+                if (inicio == null)
                 {
-                    producto.siguiente = varTemporal.siguiente;
-                    varTemporal.siguiente = producto;
+                    inicio = producto;
                 }
-            }
+                else
+                {
+                    if (producto.codigo < inicio.codigo)
+                    {
+                        producto.siguiente = inicio;
+                        inicio = producto;
+                    }
+                    else if (producto.codigo > inicio.codigo)
+                    {
+                        while (guardar.siguiente != null && producto.codigo > guardar.siguiente.codigo)   //este sirve para indicarnos cuando dos numeros estan
+                        {                                                                             //enseguida uno con el otro, cuando se cumple se sale del
+                            guardar = guardar.siguiente;                                             //while para entrar a lo de abajo donde se cambian las direcciones del siguiente de cada uno
+                        }
+                        producto.siguiente = guardar.siguiente;
+                        guardar.siguiente = producto;
+                    }
+                }
+            
+
         }
         public Productos buscarProducto(int codigo)
         {
